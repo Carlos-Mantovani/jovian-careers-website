@@ -1,41 +1,30 @@
 from flask import Flask, render_template, jsonify
+import mysql.connector
+from settings import DATABASE_PASSWORD
+
+db = mysql.connector.connect(
+	host='localhost',
+	user='root',
+	password=DATABASE_PASSWORD,
+	database='joviancareers'
+)
+
+cursor = db.cursor(dictionary=True)
 
 app = Flask(__name__)
 
-JOBS = [
-	{
-		'id': 1,
-		'title': 'Data Analyst',
-		'location': 'Texas, USA',
-		'salary': '$ 4,000.00'	
-	},
-	{
-		'id': 2,
-		'title': 'Data Scientist',
-		'location': 'San Francisco, USA',
-		'salary': '$ 7,000.00'	
-	},
-	{
-		'id': 3,
-		'title': 'Frontend Engineer',
-		'location': 'Remote',
-		'salary': '$ 5,000.00'	
-	},
-	{
-		'id': 4,
-		'title': 'Backend Engineer',
-		'location': 'Remote',
-		'salary': '$ 10,000.00'	
-	}
-]
-
 @app.route('/')
 def index():
-	return render_template('index.html', jobs=JOBS)
+	cursor.execute('SELECT * FROM jobs')
+	jobs = cursor.fetchall()
+	print(jobs)
+	return render_template('index.html', jobs=jobs)
 
 @app.route('/jobs')
 def list_jobs():
-	return jsonify(JOBS)
+	cursor.execute('SELECT * FROM jobs')
+	jobs = cursor.fetchall()
+	return jsonify(jobs)
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0', debug=True)
