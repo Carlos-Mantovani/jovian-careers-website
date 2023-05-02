@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 import mysql.connector
 from settings import DATABASE_PASSWORD
 
@@ -34,6 +34,17 @@ def show_job(id):
 		return render_template('jobpage.html', job=job)
 	except IndexError:
 		return 'Not Found', 404
+
+@app.route('/job/<id>/apply', methods=['POST'])
+def apply_to_job(id):
+	data = request.form
+	cursor.execute('SELECT * FROM jobs WHERE id = %s', (id,))
+	job = cursor.fetchall()[0]
+	cursor.execute('INSERT INTO applications\
+	(job_id, full_name, email, linkedin_url, education, work_experience, resume_url)\
+	VALUES (%s, %s, %s, %s, %s, %s, %s)', (id, data['full_name'], data['email'], data['linkedin_url'], data['education'], data['work_experience'], data['resume_url']))
+	db.commit()
+	return render_template('application_submitted.html', application=data, job=job)
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0', debug=True)
