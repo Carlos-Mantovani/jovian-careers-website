@@ -24,6 +24,38 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/ `joviancareers` /*!40100 DEFAULT CHARAC
 USE `joviancareers`;
 
 --
+-- Table structure for table `applications`
+--
+
+DROP TABLE IF EXISTS `applications`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `applications` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `job_id` int NOT NULL,
+  `full_name` varchar(250) NOT NULL,
+  `email` varchar(250) NOT NULL,
+  `linkedin_url` varchar(500) DEFAULT NULL,
+  `education` varchar(2000) DEFAULT NULL,
+  `work_experience` varchar(2000) DEFAULT NULL,
+  `resume_url` varchar(500) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `applications`
+--
+
+LOCK TABLES `applications` WRITE;
+/*!40000 ALTER TABLE `applications` DISABLE KEYS */;
+INSERT INTO `applications` VALUES (1,1,'Carlos Augusto','sherifinho.augusto@gmail.com','https://www.linkedin.com/in/carlos-augusto-mantovani-da-silva-1658851b4/','None','None','gregehgth','2023-05-02 19:21:51','2023-05-02 19:21:51');
+/*!40000 ALTER TABLE `applications` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `jobs`
 --
 
@@ -61,4 +93,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-05-02 15:01:50
+-- Dump completed on 2023-05-02 17:46:40
