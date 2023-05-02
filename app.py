@@ -26,5 +26,14 @@ def list_jobs():
 	jobs = cursor.fetchall()
 	return jsonify(jobs)
 
+@app.route('/job/<id>')
+def show_job(id):
+	try:
+		cursor.execute('SELECT * FROM jobs WHERE id = %s', (id,))
+		job = cursor.fetchall()[0]
+		return render_template('jobpage.html', job=job)
+	except IndexError:
+		return 'Not Found', 404
+
 if __name__ == '__main__':
 	app.run(host='0.0.0.0', debug=True)
